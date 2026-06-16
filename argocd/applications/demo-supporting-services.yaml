@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-supporting-services
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/xsteve-devops/e-commerce-devops-infra.git
+    targetRevision: main
+    path: kubernetes/demo-supporting-services
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: e-commerce-devops
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
