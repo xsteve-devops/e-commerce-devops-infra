@@ -22,3 +22,13 @@ output "cluster_endpoint" {
   description = "The endpoint of the EKS cluster"
   value       = module.eks.cluster_endpoint
 }
+
+output "oidc_provider_arn" {
+  description = "The ARN of the OIDC provider for IRSA"
+  value       = module.eks.oidc_provider_arn
+}
+
+output "oidc_provider" {
+  description = "The OIDC provider URL without https:// prefix"
+  value       = module.eks.oidc_provider
+}
