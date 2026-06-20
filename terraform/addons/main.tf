@@ -54,7 +54,7 @@ resource "helm_release" "alb_controller" {
 
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
-
+  version    = "3.2.2"
 
   values = [
     yamlencode({
