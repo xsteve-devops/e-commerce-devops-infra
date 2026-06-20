@@ -37,4 +37,27 @@ kubectl apply -f argocd/root-app.yaml
 echo "Argo CD applications:"
 kubectl get applications -n argocd
 
+# Print the URL of the ALB
+echo "Waiting for ALB address..."
+ALB_ADDRESS=""
+
+for i in {1..15}; do
+  ALB_ADDRESS=$(kubectl get ingress frontend-proxy -n e-commerce-devops \
+    -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' 2>/dev/null || true)
+
+  if [ -n "$ALB_ADDRESS" ]; then
+    echo "ALB address: http://${ALB_ADDRESS}"
+    break
+  fi
+
+  echo "ALB address is not ready yet. Retrying..."
+  sleep 20
+done
+
+if [ -z "$ALB_ADDRESS" ]; then
+  echo "ALB address was not ready within the timeout."
+  kubectl get ingress -n e-commerce-devops || true
+  exit 1
+fi
+
 echo "Bootstrap completed"  
