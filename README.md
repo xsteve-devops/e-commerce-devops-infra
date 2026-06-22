@@ -32,30 +32,7 @@ In addition to the selected core services, several supporting services from the 
 
 ## Architecture
 
-```text
-Application Code Change
-        |
-        v
-GitHub Actions CI
-        |
-        v
-Docker Image Build and Scan
-        |
-        v
-Push Image to Registry
-        |
-        v
-Update Kubernetes Manifest in Infra Repository
-        |
-        v
-Argo CD Sync
-        |
-        v
-AWS EKS
-        |
-        v
-Kubernetes Workloads and ALB Ingress
-```
+![Two Repository GitOps Workflow](docs/images/two-repo-gitops-workflow.png)
 
 In this design, CI is responsible for building and publishing immutable container images. The infrastructure repository stores the desired Kubernetes deployment state. Argo CD continuously synchronizes the desired state from Git to the EKS cluster.
 
@@ -129,6 +106,8 @@ Installs cluster-level addons:
 The addons stack reads required outputs from the EKS stack through Terraform remote state.
 
 ## GitOps Design
+
+![Infra GitOps Architecture](docs/images/infra-gitops-architecture.png)
 
 Argo CD is configured with the App of Apps pattern.
 
